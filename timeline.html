@@ -1,0 +1,178 @@
+<!-- timeline.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Together with Monica</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <nav class="menu-bar">
+    <button onclick="navigateTo('index.html')">🏠 Home</button>
+    <button onclick="navigateTo('timeline.html')">📅 Our Memories</button>
+    <button onclick="navigateTo('rules.html')">📜 Our Rules</button>
+    <button onclick="navigateTo('wishes.html')">💌 Wishes & Complaints</button>
+  </nav>
+
+  <section id="main-page" class="fullpage visible">
+    <div id="timeline-bg-container">
+      <div id="tl-bg1" class="timeline-bg-layer"></div>
+      <div id="tl-bg2" class="timeline-bg-layer"></div>
+    </div>
+    <div class="centered-text">
+      <h1>Together with Monica</h1>
+      <h2 id="days-count">...</h2>
+    </div>
+  </section>
+
+  <section id="timeline-section">
+    <main>
+      <div class="timeline-vertical">
+        <div class="timeline-item" onclick="openDetail('2024-11-25')">
+          <div class="date">2024-11-25</div>
+          <div class="circle"></div>
+          <span>第一顿晚饭</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2024-11-26')">
+          <div class="date">2024-11-26</div>
+          <div class="circle"></div>
+          <span>第一次尝试你的厨艺</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2024-11-30')">
+          <div class="date">2024-11-30</div>
+          <div class="circle"></div>
+          <span>第一次 ”约会“</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2024-12-01')">
+          <div class="date">2024-12-01</div>
+          <div class="circle"></div>
+          <span>你第一次发照片给我</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2024-12-02')">
+          <div class="date">2024-12-02</div>
+          <div class="circle"></div>
+          <span>正式的在一起了！</span> 
+        </div>
+        <div class="timeline-item" onclick="openDetail('2024-12-04')">
+          <div class="date">2024-12-04</div>
+          <div class="circle"></div>
+          <span>第一次探班</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2024-12-07')">
+          <div class="date">2024-12-07</div>
+          <div class="circle"></div>
+          <span>第一次一起喝酒</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2024-12-08')">
+          <div class="date">2024-12-08</div>
+          <div class="circle"></div>
+          <span>波士顿的第一场雪</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2024-12-09')">
+          <div class="date">2024-12-09</div>
+          <div class="circle"></div>
+          <span>我们的合照</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2025-01-24')">
+          <div class="date">2025-01-24</div>
+          <div class="circle"></div>
+          <span>在雪中散步</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2025-01-27')">
+          <div class="date">2025-01-27</div>
+          <div class="circle"></div>
+          <span>第一次和你吃辣</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2025-02-14')">
+          <div class="date">2025-02-14</div>
+          <div class="circle"></div>
+          <span>我们的第一个情人节！</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2025-02-21')">
+          <div class="date">2025-02-21</div>
+          <div class="circle"></div>
+          <span>第一个一起看的演唱会</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2025-02-23')">
+          <div class="date">2025-02-23</div>
+          <div class="circle"></div>
+          <span>第一次一起攀岩</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2025-03-02')">
+          <div class="date">2025-03-02</div>
+          <div class="circle"></div>
+          <span>我们的牵手照</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2025-03-18')">
+          <div class="date">2025-03-18</div>
+          <div class="circle"></div>
+          <span>收到你写的信</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2025-03-29')">
+          <div class="date">2025-03-29</div>
+          <div class="circle"></div>
+          <span>第一个trip</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2025-03-31')">
+          <div class="date">2025-03-31</div>
+          <div class="circle"></div>
+          <span>你的第一场表演</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2025-04-04')">
+          <div class="date">2025-04-04</div>
+          <div class="circle"></div>
+          <span>芝加哥的trip</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2025-04-11')">
+          <div class="date">2025-04-11</div>
+          <div class="circle"></div>
+          <span>水族馆约会</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2025-04-13')">
+          <div class="date">2025-04-13</div>
+          <div class="circle"></div>
+          <span>一起锻炼</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2025-04-28')">
+          <div class="date">2025-04-28</div>
+          <div class="circle"></div>
+          <span>你这个学期最后一场表演</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2025-05-02')">
+          <div class="date">2025-05-02</div>
+          <div class="circle"></div>
+          <span>5个月了！</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2025-05-10')">
+          <div class="date">2025-05-10</div>
+          <div class="circle"></div>
+          <span>纽约冒险记 1</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2025-05-12')">
+          <div class="date">2025-05-12</div>
+          <div class="circle"></div>
+          <span>纽约冒险记 2</span>
+        </div>
+        <div class="timeline-item" onclick="openDetail('2025-05-18')">
+          <div class="date">2025-05-18</div>
+          <div class="circle"></div>
+          <span>毕业典礼</span>
+        </div>
+      </div>
+    </main>
+
+    <div id="detail-view">
+      <!-- Exit button -->
+      <button class="close-btn" onclick="closeDetail()">×</button>
+
+      <div class="detail-content">
+        <img id="detail-img" src="" alt="Memory">
+        <p id="detail-text"></p>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wishes & Grievances</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="menu-bar">
+    <button onclick="navigateTo('index.html')">🏠 Home</button>
+    <button onclick="navigateTo('timeline.html')">📅 Our Memories</button>
+    <button onclick="navigateTo('rules.html')">📜 Our Rules</button>
+    <button onclick="navigateTo('wishes.html')">💌 Wishes & Complaints</button>
+  </nav>
+  
+    <div id="cat-bg-container">
+      <div class="bg-layer" id="bg1"></div>
+      <div class="bg-layer" id="bg2"></div>
+    </div>
+
+  <section id="wishes-section" style="padding:2">
+    <h1>愿望 💌</h1>
+    <form id="wishForm" onsubmit="saveEntry('wish'); return false;">
+      <textarea id="wishInput" placeholder="请填写你的愿望..." required></textarea><br>
+      <button type="submit">添加愿望</button>
+    </form>
+    <div id="wishList"></div>
+
+    <h1>投诉 💢</h1>
+    <form id="complaintForm" onsubmit="saveEntry('complaint'); return false;">
+      <textarea id="complaintInput" placeholder="请填写你的投诉..." required></textarea><br>
+      <button type="submit">添加投诉</button>
+    </form>
+    <div id="complaintList"></div>
+  </section>
+
+  <script src="script.js"></script>
+
+  <script>
+    // Load & render both lists on startup
+    window.onload = () => {
+      renderEntries('wish');
+      renderEntries('complaint');
+    };
+
+    function saveEntry(type) {
+      const input = document.getElementById(type + 'Input');
+      const value = input.value.trim();
+      if (!value) return;
+      const key = type + 's';
+      const items = JSON.parse(localStorage.getItem(key) || '[]');
+      items.push(value);
+      localStorage.setItem(key, JSON.stringify(items));
+      input.value = '';
+      renderEntries(type);
+    }
+
+    function removeEntry(type, index) {
+      const key = type + 's';
+      const items = JSON.parse(localStorage.getItem(key) || '[]');
+      items.splice(index, 1);
+      localStorage.setItem(key, JSON.stringify(items));
+      renderEntries(type);
+    }
+
+    function renderEntries(type) {
+      const key = type + 's';
+      const container = document.getElementById(type + 'List');
+      const items = JSON.parse(localStorage.getItem(key) || '[]');
+      container.innerHTML = '';
+
+      items.forEach((text, i) => {
+        const box = document.createElement('div');
+        box.className = 'entry-box';
+
+        const span = document.createElement('span');
+        span.innerText = text;
+
+        const btn = document.createElement('button');
+        btn.className = 'remove-btn';
+        btn.innerText = '✖';
+        btn.onclick = () => removeEntry(type, i);
+
+        box.appendChild(span);
+        box.appendChild(btn);
+        container.appendChild(box);
+      });
+    }
+
+    function navigateTo(page) {
+      document.body.classList.add('fade-out');
+      setTimeout(() => window.location.href = page, 800);
+    }
+  </script>
+</body>
+</html>
