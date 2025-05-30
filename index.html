@@ -33,13 +33,13 @@ async function check() {
   const guess = document.getElementById('key').value;
   if (await sha256(guess) === VALID_SHA256) {
     sessionStorage.setItem('ok','yes');          // remember within the tab
-    window.location.href = "index.html";          // your real landing page
+    window.location.href = "home.html";          // your real landing page
   } else {
     document.getElementById('msg').textContent = "Wrong key — try again.";
   }
 }
 // auto-skip the gate if user already passed it in this tab
-if (sessionStorage.getItem('ok') === 'yes') window.location.href = "index.html";
+if (sessionStorage.getItem('ok') === 'yes') window.location.href = "home.html";
 </script>
 </body>
 </html>
