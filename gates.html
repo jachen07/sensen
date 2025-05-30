@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Enter access key</title>
+<style>
+  body {display:flex; height:100vh; justify-content:center; align-items:center; background:#111; color:#eee; font-family:sans-serif;}
+  #box {text-align:center;}
+  input {padding:.5rem 1rem; font-size:1rem;}
+  button {margin-left:.5rem; padding:.5rem 1rem;}
+</style>
+</head>
+<body>
+  <div id="box">
+    <h2>🔐 Private site</h2>
+    <p>Enter your access key:</p>
+    <input id="key" type="password" autocomplete="off" />
+    <button onclick="check()">Enter</button>
+    <p id="msg" style="color:#f88"></p>
+  </div>
+
+<script>
+
+const VALID_SHA256 = "__HASH__"; // hash of your real key
+
+async function sha256(str) {
+  const buf = new TextEncoder().encode(str);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function check() {
+  const guess = document.getElementById('key').value;
+  if (await sha256(guess) === VALID_SHA256) {
+    sessionStorage.setItem('ok','yes');          // remember within the tab
+    window.location.href = "index.html";          // your real landing page
+  } else {
+    document.getElementById('msg').textContent = "Wrong key — try again.";
+  }
+}
+// auto-skip the gate if user already passed it in this tab
+if (sessionStorage.getItem('ok') === 'yes') window.location.href = "index.html";
+</script>
+</body>
+</html>

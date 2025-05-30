@@ -1,0 +1,37 @@
+name: Build & deploy gated site
+
+on:
+  push:
+    branches: [main]          # deploy every push to main
+  workflow_dispatch:          # …or let you trigger it manually
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Check out the repo
+      - uses: actions/checkout@v4
+
+      # 2️⃣ Turn the secret into a SHA-256 hash and patch gate.html
+      - name: Insert password hash
+        env:
+          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+        run: |
+          HASH=$(node - <<'EOF'
+            const crypto = require('crypto');
+            console.log(
+              crypto.createHash('sha256')
+                    .update(process.env.ACCESS_KEY)
+                    .digest('hex'));
+          EOF
+          )
+          echo "→ hash generated"
+          sed -i "s/__HASH__/$HASH/" gate.html
+
+      # 3️⃣ Standard GitHub Pages steps
+      - uses: actions/configure-pages@v4          # sets up Pages env
+      - uses: actions/upload-pages-artifact@v4    # packs site as artifact
+        with:
+          path: .                                 # root of your project
+      - uses: actions/deploy-pages@v4             # publishes to Pages
