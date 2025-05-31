@@ -36,61 +36,66 @@
 
   <script src="script.js"></script>
 
-  <script>
-    // Load & render both lists on startup
-    window.onload = () => {
-      renderEntries('wish');
-      renderEntries('complaint');
-    };
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getFirestore, collection, addDoc, deleteDoc, doc,
+      query, orderBy, onSnapshot
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    function saveEntry(type) {
-      const input = document.getElementById(type + 'Input');
-      const value = input.value.trim();
-      if (!value) return;
-      const key = type + 's';
-      const items = JSON.parse(localStorage.getItem(key) || '[]');
-      items.push(value);
-      localStorage.setItem(key, JSON.stringify(items));
-      input.value = '';
-      renderEntries(type);
+    const firebaseConfig = {
+      apiKey: "AIzaSyAg9zlZoPC6dTI7x3YEkNGNenB0-qPaRHM",
+      authDomain: "sensen-8403c.firebaseapp.com",
+      databaseURL: "https://sensen-8403c-default-rtdb.firebaseio.com",
+      projectId: "sensen-8403c",
+      storageBucket: "sensen-8403c.firebasestorage.app",
+      messagingSenderId: "422342562171",
+      appId: "1:422342562171:web:ac0be250f49d35465c6dde",
+      measurementId: "G-WCQ7ZSR8DP"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db  = getFirestore(app);
+
+    /* helpers */
+    const col = t => collection(db, t === "wish" ? "wishes" : "complaints");
+
+    async function saveEntry(type) {
+      const input = document.getElementById(type + "Input");
+      const text  = input.value.trim();
+      if (!text) return;
+      await addDoc(col(type), { text, created: Date.now() });
+      input.value = "";
     }
 
-    function removeEntry(type, index) {
-      const key = type + 's';
-      const items = JSON.parse(localStorage.getItem(key) || '[]');
-      items.splice(index, 1);
-      localStorage.setItem(key, JSON.stringify(items));
-      renderEntries(type);
+    async function removeEntry(type, id) {
+      await deleteDoc(doc(col(type), id));
     }
 
     function renderEntries(type) {
-      const key = type + 's';
-      const container = document.getElementById(type + 'List');
-      const items = JSON.parse(localStorage.getItem(key) || '[]');
-      container.innerHTML = '';
-
-      items.forEach((text, i) => {
-        const box = document.createElement('div');
-        box.className = 'entry-box';
-
-        const span = document.createElement('span');
-        span.innerText = text;
-
-        const btn = document.createElement('button');
-        btn.className = 'remove-btn';
-        btn.innerText = '✖';
-        btn.onclick = () => removeEntry(type, i);
-
-        box.appendChild(span);
-        box.appendChild(btn);
-        container.appendChild(box);
+      const listDiv = document.getElementById(type + "List");
+      const q = query(col(type), orderBy("created"));
+      onSnapshot(q, snap => {
+        listDiv.innerHTML = "";
+        snap.forEach(docSnap => {
+          const { text } = docSnap.data();
+          const box = document.createElement("div");
+          box.className = "entry-box";
+          box.innerHTML = `<span>${text}</span>
+                          <button class="remove-btn">✖</button>`;
+          box.querySelector("button").onclick =
+            () => removeEntry(type, docSnap.id);
+          listDiv.appendChild(box);
+        });
       });
     }
 
-    function navigateTo(page) {
-      document.body.classList.add('fade-out');
-      setTimeout(() => window.location.href = page, 800);
-    }
+    /* expose to inline HTML */
+    window.saveEntry = saveEntry;
+
+    /* start */
+    ["wish", "complaint"].forEach(renderEntries);
   </script>
+
+
 </body>
 </html>
