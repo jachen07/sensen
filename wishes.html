@@ -6,28 +6,31 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- ---------- Navigation ---------- -->
   <nav class="menu-bar">
-    <button onclick="navigateTo('index.html')">🏠 Home</button>
-    <button onclick="navigateTo('timeline.html')">📅 Our Memories</button>
-    <button onclick="navigateTo('rules.html')">📜 Our Rules</button>
-    <button onclick="navigateTo('wishes.html')">💌 Wishes & Complaints</button>
+    <button data-page="index.html">🏠 Home</button>
+    <button data-page="timeline.html">📅 Our Memories</button>
+    <button data-page="rules.html">📜 Our Rules</button>
+    <button data-page="wishes.html">💌 Wishes & Complaints</button>
   </nav>
-  
-    <div id="cat-bg-container">
-      <div class="bg-layer" id="bg1"></div>
-      <div class="bg-layer" id="bg2"></div>
-    </div>
 
-  <section id="wishes-section" style="padding:2">
+  <!-- background layers -->
+  <div id="cat-bg-container">
+    <div class="bg-layer" id="bg1"></div>
+    <div class="bg-layer" id="bg2"></div>
+  </div>
+
+  <!-- ---------- Content ---------- -->
+  <section id="wishes-section">
     <h1>愿望 💌</h1>
-    <form id="wishForm" onsubmit="saveEntry('wish'); return false;">
+    <form id="wishForm">
       <textarea id="wishInput" placeholder="请填写你的愿望..." required></textarea><br>
       <button type="submit">添加愿望</button>
     </form>
     <div id="wishList"></div>
 
     <h1>投诉 💢</h1>
-    <form id="complaintForm" onsubmit="saveEntry('complaint'); return false;">
+    <form id="complaintForm">
       <textarea id="complaintInput" placeholder="请填写你的投诉..." required></textarea><br>
       <button type="submit">添加投诉</button>
     </form>
@@ -36,66 +39,79 @@
 
   <script src="script.js"></script>
 
+  <!-- ---------- Firebase + logic ---------- -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import {
-      getFirestore, collection, addDoc, deleteDoc, doc,
-      query, orderBy, onSnapshot
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    /* 1. Firebase bootstrap */
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getDatabase, ref, push, onValue, remove }
+      from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyAg9zlZoPC6dTI7x3YEkNGNenB0-qPaRHM",
-      authDomain: "sensen-8403c.firebaseapp.com",
-      databaseURL: "https://sensen-8403c-default-rtdb.firebaseio.com",
-      projectId: "sensen-8403c",
-      storageBucket: "sensen-8403c.firebasestorage.app",
+      apiKey:            "AIzaSyAg9zlZoPC6dTI7x3YEkNGNenB0-qPaRHM",
+      authDomain:        "sensen-8403c.firebaseapp.com",
+      databaseURL:       "https://sensen-8403c-default-rtdb.firebaseio.com",
+      projectId:         "sensen-8403c",
+      storageBucket:     "sensen-8403c.appspot.com",           // ← fixed
       messagingSenderId: "422342562171",
-      appId: "1:422342562171:web:ac0be250f49d35465c6dde",
-      measurementId: "G-WCQ7ZSR8DP"
+      appId:             "1:422342562171:web:ac0be250f49d35465c6dde",
+      measurementId:     "G-WCQ7ZSR8DP"
     };
     const app = initializeApp(firebaseConfig);
-    const db  = getFirestore(app);
+    const db  = getDatabase(app);
 
-    /* helpers */
-    const col = t => collection(db, t === "wish" ? "wishes" : "complaints");
+    /* 2. Helpers */
+    const saveEntry = (type, text) =>
+      push(ref(db, `${type}s`), { text, ts: Date.now() });
 
-    async function saveEntry(type) {
-      const input = document.getElementById(type + "Input");
-      const text  = input.value.trim();
-      if (!text) return;
-      await addDoc(col(type), { text, created: Date.now() });
-      input.value = "";
-    }
+    const deleteEntry = (type, key) =>
+      remove(ref(db, `${type}s/${key}`));
 
-    async function removeEntry(type, id) {
-      await deleteDoc(doc(col(type), id));
-    }
+    const render = (type) => {
+      const box = document.getElementById(`${type}List`);
+      onValue(ref(db, `${type}s`), snap => {
+        box.innerHTML = "";
+        snap.forEach(child => {
+          const div  = document.createElement("div");
+          div.className = "entry-box";
 
-    function renderEntries(type) {
-      const listDiv = document.getElementById(type + "List");
-      const q = query(col(type), orderBy("created"));
-      onSnapshot(q, snap => {
-        listDiv.innerHTML = "";
-        snap.forEach(docSnap => {
-          const { text } = docSnap.data();
-          const box = document.createElement("div");
-          box.className = "entry-box";
-          box.innerHTML = `<span>${text}</span>
-                          <button class="remove-btn">✖</button>`;
-          box.querySelector("button").onclick =
-            () => removeEntry(type, docSnap.id);
-          listDiv.appendChild(box);
+          const span = document.createElement("span");
+          span.textContent = child.val().text;
+
+          const btn  = document.createElement("button");
+          btn.className = "remove-btn";
+          btn.textContent = "✖";
+          btn.onclick = () => deleteEntry(type, child.key);
+
+          div.append(span, btn);
+          box.appendChild(div);
         });
       });
-    }
+    };
 
-    /* expose to inline HTML */
-    window.saveEntry = saveEntry;
+    /* 3. Wire up DOM once loaded */
+    document.addEventListener("DOMContentLoaded", () => {
+      // submit handlers
+      document.getElementById("wishForm").addEventListener("submit", e => {
+        e.preventDefault();
+        const t = document.getElementById("wishInput");
+        if (t.value.trim()) { saveEntry("wish", t.value.trim()); t.value = ""; }
+      });
+      document.getElementById("complaintForm").addEventListener("submit", e => {
+        e.preventDefault();
+        const t = document.getElementById("complaintInput");
+        if (t.value.trim()) { saveEntry("complaint", t.value.trim()); t.value = ""; }
+      });
 
-    /* start */
-    ["wish", "complaint"].forEach(renderEntries);
+      // live listeners
+      ["wish", "complaint"].forEach(render);
+
+      // nav buttons fade-out
+      document.querySelectorAll(".menu-bar button").forEach(btn =>
+        btn.addEventListener("click", () => {
+          document.body.classList.add("fade-out");
+          setTimeout(() => { location.href = btn.dataset.page; }, 800);
+        }));
+    });
   </script>
-
-
 </body>
 </html>
