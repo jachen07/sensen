@@ -342,6 +342,49 @@ section:nth-of-type(even){ background:rgba(245,245,245,0.55); }
   section h2{ font-size:1.4rem; }
 }
 
+
+/* 1️⃣  Timeline on small screens */
+@media (max-width:600px){
+
+  /* keep whole timeline a bit narrower but centred */
+  .timeline-vertical{
+    max-width:90%;
+    padding:0 0.5rem;
+  }
+
+  /* put the vertical axis back in the middle */
+  .timeline-vertical::before{
+    left:50%;
+    transform:translateX(-50%);
+  }
+
+  /* three-column mobile grid (date | dot | text) + extra gap */
+  .timeline-item{
+    grid-template-columns:1fr 44px 1fr;
+    grid-template-rows:auto;
+    margin-bottom:4rem;                /* more breathing room */
+  }
+
+  .timeline-item .date{
+    grid-column:1; text-align:right;
+    font-size:0.95rem; margin:0;
+  }
+  .timeline-item .circle{ grid-column:2; }
+  .timeline-item span{
+    grid-column:3; text-align:left;
+    font-size:1rem;
+  }
+}
+
+/* 2️⃣  Ensure hamburger & menu are on top */
+#nav-toggle{
+  display:block;            /* never hidden */
+  z-index:2001;             /* higher than menu-bar */
+}
+body.menu-open .menu-bar{   /* when open, sit above page */
+  z-index:2000;
+}
+
 /* =======================================================
    END OF STYLESHEET
    ======================================================= */
