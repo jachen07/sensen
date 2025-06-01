@@ -214,20 +214,21 @@ function crossfade() {
 setInterval(crossfade, 5000);
 crossfade();
 
-/* script.js */
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.getElementById('nav-toggle');
   const menu   = document.querySelector('.menu-bar');
+
   if (!toggle || !menu) return;
 
-  toggle.addEventListener('click', () =>
-    document.body.classList.toggle('menu-open')
-  );
+  // Tapping ☰ toggles the class on <body>
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('menu-open');
+  });
 
-  /* close after tapping a link */
-  menu.querySelectorAll('button').forEach(btn =>
-    btn.addEventListener('click', () =>
-      document.body.classList.remove('menu-open')
-    )
-  );
+  // After tapping any menu button, close the menu
+  menu.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.body.classList.remove('menu-open');
+    });
+  });
 });

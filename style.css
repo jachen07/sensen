@@ -342,7 +342,6 @@ section:nth-of-type(even){ background:rgba(245,245,245,0.55); }
   section h2{ font-size:1.4rem; }
 }
 
-
 #nav-toggle {
   display: none;
   position: fixed;
@@ -353,17 +352,17 @@ section:nth-of-type(even){ background:rgba(245,245,245,0.55); }
   color: #fff;
   font-size: 2.2rem;
   cursor: pointer;
-  z-index: 4000; /* sits above .menu-bar */
+  z-index: 4000; /* above .menu-bar */
 }
 
-/* ❷  On phones (≤600px), show ☰ and slide-down menu */
+/* ② On phones ≤ 600px, show the hamburger and slide down the menu */
 @media (max-width: 600px) {
-  /* show button */
+  /* Show the ☰ on phones */
   #nav-toggle {
     display: block;
   }
 
-  /* make .menu-bar a hidden slide-down panel */
+  /* Make .menu-bar slide down from –110% into view */
   .menu-bar {
     position: fixed;
     top: 0;
@@ -376,8 +375,9 @@ section:nth-of-type(even){ background:rgba(245,245,245,0.55); }
     padding: 1rem 1.2rem;
     transform: translateY(-110%);
     transition: transform 0.35s ease;
-    z-index: 3500; /* below the toggle (4000) */
+    z-index: 3500; /* just under the toggle (4000) */
   }
+  /* When body gets .menu-open, menu-bar slides into view */
   body.menu-open .menu-bar {
     transform: translateY(0);
   }
@@ -393,7 +393,7 @@ section:nth-of-type(even){ background:rgba(245,245,245,0.55); }
     border-bottom: none;
   }
 
-  /* ❸  Re-center timeline & add spacing */
+  /* ③ Re-center timeline on phones, plus generous spacing */
   .timeline-vertical {
     max-width: 94%;
     margin: 3.5rem auto;
