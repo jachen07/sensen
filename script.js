@@ -213,3 +213,11 @@ function crossfade() {
 // 3) Kick it off
 setInterval(crossfade, 5000);
 crossfade();
+
+// --- hamburger nav ---
+const toggle = document.getElementById('nav-toggle');
+if (toggle) {
+  toggle.addEventListener('click', () =>
+    document.body.classList.toggle('menu-open')
+  );
+}
