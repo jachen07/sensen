@@ -343,73 +343,75 @@ section:nth-of-type(even){ background:rgba(245,245,245,0.55); }
 }
 
 
-/* 1️⃣  Timeline on small screens */
-@media (max-width:600px){
-
-  /* keep whole timeline a bit narrower but centred */
-  .timeline-vertical{
-    max-width:90%;
-    padding:0 0.5rem;
-  }
-
-  /* put the vertical axis back in the middle */
-  .timeline-vertical::before{
-    left:50%;
-    transform:translateX(-50%);
-  }
-
-  /* three-column mobile grid (date | dot | text) + extra gap */
-  .timeline-item{
-    grid-template-columns:1fr 44px 1fr;
-    grid-template-rows:auto;
-    margin-bottom:4rem;                /* more breathing room */
-  }
-
-  .timeline-item .date{
-    grid-column:1; text-align:right;
-    font-size:0.95rem; margin:0;
-  }
-  .timeline-item .circle{ grid-column:2; }
-  .timeline-item span{
-    grid-column:3; text-align:left;
-    font-size:1rem;
-  }
+#nav-toggle {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2.2rem;
+  cursor: pointer;
+  z-index: 4000; /* sits above .menu-bar */
 }
 
-/* default (tablet / desktop)  ─ hidden */
-#nav-toggle{
-  display:none;                     /* disappear >600 px  */
-  position:fixed; top:1rem; right:1rem;
-  background:none; border:none;
-  font-size:2.2rem; line-height:1;
-  color:#fff; cursor:pointer;
-  z-index:4000;                     /* sits above menu */
-}
-
-/* phones */
-@media(max-width:600px){
-  #nav-toggle{ display:block; }     /* shown only here  */
-
-  /* slide-down menu panel for phones                        */
-  .menu-bar{
-    position:fixed; top:0; left:0; width:100%;
-    flex-direction:column; align-items:flex-start;
-    background:rgba(0,0,0,.94);
-    gap:0; padding:1rem 1.2rem;
-    transform:translateY(-110%);
-    transition:transform .35s ease;
-    z-index:3500;
+/* ❷  On phones (≤600px), show ☰ and slide-down menu */
+@media (max-width: 600px) {
+  /* show button */
+  #nav-toggle {
+    display: block;
   }
-  body.menu-open .menu-bar{ transform:translateY(0); }
 
-  .menu-bar button{
-    width:100%; text-align:left; border-radius:0;
-    color:#fff; border-bottom:1px solid var(--pink-main);
-    padding:1rem 0;
+  /* make .menu-bar a hidden slide-down panel */
+  .menu-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    background: rgba(0, 0, 0, 0.94);
+    gap: 0;
+    padding: 1rem 1.2rem;
+    transform: translateY(-110%);
+    transition: transform 0.35s ease;
+    z-index: 3500; /* below the toggle (4000) */
   }
-  .menu-bar button:last-child{ border-bottom:none; }
-}
+  body.menu-open .menu-bar {
+    transform: translateY(0);
+  }
+  .menu-bar button {
+    width: 100%;
+    text-align: left;
+    border-radius: 0;
+    color: #fff;
+    border-bottom: 1px solid var(--pink-main);
+    padding: 1rem 0;
+  }
+  .menu-bar button:last-child {
+    border-bottom: none;
+  }
 
-/* =======================================================
-   END OF STYLESHEET
-   ======================================================= */
+  /* ❸  Re-center timeline & add spacing */
+  .timeline-vertical {
+    max-width: 94%;
+    margin: 3.5rem auto;
+    padding: 0 0.5rem;
+  }
+  .timeline-vertical::before {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .timeline-item {
+    grid-template-columns: 1fr 44px 1fr;
+    margin-bottom: 3.5rem;
+  }
+  .timeline-item .date {
+    text-align: right;
+    font-size: 0.95rem;
+  }
+  .timeline-item span {
+    font-size: 1rem;
+  }
+}
