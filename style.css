@@ -376,13 +376,38 @@ section:nth-of-type(even){ background:rgba(245,245,245,0.55); }
   }
 }
 
-/* 2️⃣  Ensure hamburger & menu are on top */
+/* default (tablet / desktop)  ─ hidden */
 #nav-toggle{
-  display:block;            /* never hidden */
-  z-index:2001;             /* higher than menu-bar */
+  display:none;                     /* disappear >600 px  */
+  position:fixed; top:1rem; right:1rem;
+  background:none; border:none;
+  font-size:2.2rem; line-height:1;
+  color:#fff; cursor:pointer;
+  z-index:4000;                     /* sits above menu */
 }
-body.menu-open .menu-bar{   /* when open, sit above page */
-  z-index:2000;
+
+/* phones */
+@media(max-width:600px){
+  #nav-toggle{ display:block; }     /* shown only here  */
+
+  /* slide-down menu panel for phones                        */
+  .menu-bar{
+    position:fixed; top:0; left:0; width:100%;
+    flex-direction:column; align-items:flex-start;
+    background:rgba(0,0,0,.94);
+    gap:0; padding:1rem 1.2rem;
+    transform:translateY(-110%);
+    transition:transform .35s ease;
+    z-index:3500;
+  }
+  body.menu-open .menu-bar{ transform:translateY(0); }
+
+  .menu-bar button{
+    width:100%; text-align:left; border-radius:0;
+    color:#fff; border-bottom:1px solid var(--pink-main);
+    padding:1rem 0;
+  }
+  .menu-bar button:last-child{ border-bottom:none; }
 }
 
 /* =======================================================
