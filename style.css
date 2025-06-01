@@ -424,10 +424,6 @@ section:nth-of-type(even){ background:rgba(245,245,245,0.55); }
 }
 
 @media (max-width: 600px) {
-
-  #timeline-section {
-    background: #000 !important;
-  }
   .timeline-vertical {
     max-width: 100vw;
     min-height: 100vh;
@@ -439,6 +435,10 @@ section:nth-of-type(even){ background:rgba(245,245,245,0.55); }
     overflow-y: visible;
     position: relative;
     z-index: 1;
+  }
+
+  #timeline-section {
+    background: #000 !important;
   }
 
   .timeline-vertical::before {
