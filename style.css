@@ -431,6 +431,8 @@ section:nth-of-type(even){ background:rgba(245,245,245,0.55); }
     position: relative;
     background: transparent;
     border-radius: 14px;
+    background: #000;
+
   }
   .timeline-vertical::before {
     left: 50% !important;
