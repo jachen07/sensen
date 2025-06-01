@@ -15,6 +15,26 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  const navToggle = document.getElementById('nav-toggle');
+  function updateNavToggleVisibility() {
+    // Only hide on mobile screens (≤600px)
+    if (window.innerWidth <= 600) {
+      if (window.scrollY > 5) {
+        navToggle?.classList.add('hide-nav');
+      } else {
+        navToggle?.classList.remove('hide-nav');
+      }
+    } else {
+      // Always show on desktop/tablet
+      navToggle?.classList.remove('hide-nav');
+    }
+  }
+
+  window.addEventListener('scroll', updateNavToggleVisibility);
+  window.addEventListener('resize', updateNavToggleVisibility); // In case screen is resized
+  updateNavToggleVisibility();
+  
 });
 
 // --- Navigation with fade (globally available) ---

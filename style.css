@@ -498,3 +498,9 @@ section:nth-of-type(even){ background:rgba(245,245,245,0.55); }
     text-align: center;
   }
 }
+
+.hide-nav {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.3s;
+}
