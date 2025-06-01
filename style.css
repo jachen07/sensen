@@ -427,11 +427,13 @@ section:nth-of-type(even){ background:rgba(245,245,245,0.55); }
   .timeline-vertical {
     max-width: 99vw;
     margin: 3.5rem auto 2rem auto;
-    padding: 0.5rem 0.4rem;
+    padding: 0;
     position: relative;
     background: transparent;
-    border-radius: 14px;
+    border-radius: 0;
     background: #000;
+    box-shadow: none;
+    overflow-x: hidden;
 
   }
   .timeline-vertical::before {
