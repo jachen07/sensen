@@ -360,6 +360,9 @@ section:nth-of-type(even){ background:rgba(245,245,245,0.55); }
   /* Show the ☰ on phones */
   #nav-toggle {
     display: block;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;    /* ← Change from right: to left: */
   }
 
   /* Make .menu-bar slide down from –110% into view */
@@ -383,9 +386,9 @@ section:nth-of-type(even){ background:rgba(245,245,245,0.55); }
   }
   .menu-bar button {
     width: 100%;
-    text-align: left;
+    text-align: right;
     border-radius: 0;
-    color: #fff;
+    color: #403e3e;
     border-bottom: 1px solid var(--pink-main);
     padding: 1rem 0;
   }

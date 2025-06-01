@@ -8,12 +8,11 @@
 </head>
 <body>
   <button id="nav-toggle" aria-label="Menu">☰</button>
-  <!-- ---------- Navigation ---------- -->
   <nav class="menu-bar">
-    <button data-page="index.html">🏠 Home</button>
-    <button data-page="timeline.html">📅 Our Memories</button>
-    <button data-page="rules.html">📜 Our Rules</button>
-    <button data-page="wishes.html">💌 Wishes & Complaints</button>
+    <button onclick="navigateTo('index.html')">🏠 Home</button>
+    <button onclick="navigateTo('timeline.html')">📅 Our Memories</button>
+    <button onclick="navigateTo('rules.html')">📜 Our Rules</button>
+    <button onclick="navigateTo('wishes.html')">💌 Wishes & Complaints</button>
   </nav>
 
   <!-- background layers -->
@@ -103,13 +102,6 @@
 
       // live listeners
       ["wish", "complaint"].forEach(render);
-
-      // nav buttons fade-out
-      document.querySelectorAll(".menu-bar button").forEach(btn =>
-        btn.addEventListener("click", () => {
-          document.body.classList.add("fade-out");
-          setTimeout(() => { location.href = btn.dataset.page; }, 800);
-        }));
     });
   </script>
 
