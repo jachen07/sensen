@@ -262,3 +262,9 @@ function crossfade() {
 // 3) Kick it off
 setInterval(crossfade, 5000);
 crossfade();
+
+firebase.auth().signInAnonymously()
+  .catch((error) => {
+    // Handle Errors here.
+    console.error(error);
+  });
