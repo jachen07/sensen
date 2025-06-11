@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Menu – Place Your Order</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+
+<body>
+  <button id="nav-toggle">☰</button>
+  <nav class="menu-bar">
+    <button onclick="navigateTo('home.html')">🏠 Home</button>
+  </nav>
+  <main id="menu-page">
+    <!-- ①  ORDER SCREEN  -->
+    <section id="order-section">
+      <h2>Your Order</h2>
+      <ul id="order-list"></ul>
+      <div class="order-total">
+        Total: $<span id="order-total">0.00</span>
+      </div>
+    </section>
+
+    <!-- ②  MENU OPTIONS  -->
+    <section id="menu-section">
+      <h2>Menu</h2>
+      <div id="menu-items" class="menu-grid"></div>
+    </section>
+
+    <!-- ③  ADD-ONS & REQUESTS  -->
+    <section id="addons-section">
+      <h2>Special Requests</h2>
+      <form id="addon-form">
+        <textarea id="addon-input" placeholder="e.g. When I come home, I want you to wear XXX standing at the door"></textarea>
+        <button type="submit">Add Request</button>
+      </form>
+
+      <ul id="addon-list"></ul>
+    </section>
+  </main>
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  // 🔐  REPLACE with your own config  ↓↓↓
+ const firebaseConfig = {    
+    apiKey:            "AIzaSyAg9zlZoPC6dTI7x3YEkNGNenB0-qPaRHM",
+    authDomain:        "sensen-8403c.firebaseapp.com",
+    databaseURL:       "https://sensen-8403c-default-rtdb.firebaseio.com",
+    projectId:         "sensen-8403c",
+    storageBucket:     "sensen-8403c.appspot.com",          
+    messagingSenderId: "422342562171",
+    appId:             "1:422342562171:web:ac0be250f49d35465c6dde",
+    measurementId:     "G-WCQ7ZSR8DP"
+};
+
+  const app   = initializeApp(firebaseConfig);
+  const db    = getDatabase(app);
+  const auth  = getAuth(app);
+
+  // Expose db globally for menu_script.js
+  window._realtimeDB = db;
+
+  signInAnonymously(auth)
+    .then(() => {            
+        window._realtimeDB = db; 
+    })
+    .catch(console.error);
+
+</script>
+<script type="module" src="menu_script.js"></script>
+</body>
+</html>

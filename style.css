@@ -524,3 +524,109 @@ body.timeline-page {
   z-index: 0; /* Behind the menu and timeline */
   pointer-events: none;
 }
+#menu-page{
+  max-width: 1100px;
+  margin: 4rem auto var(--gap);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+#menu-page section{
+  background: rgba(255,255,255,0.85);
+  padding: calc(var(--gap) * 0.8);
+  border-radius: 18px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+}
+
+/* ---------- ORDER LIST ---------- */
+#order-section ul,
+#addon-list{ list-style: none; padding: 0; margin: 0; }
+
+#order-section li,
+#addon-list li{
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 0.6rem;
+  gap: 0.5rem;
+  color: var(--text-dark);
+}
+
+#order-section .order-total{
+  font-weight: 600;
+  font-size: 1.2rem;
+  text-align: right;
+  color: var(--pink-main);
+}
+
+.menu-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--gap);
+}
+
+.menu-card{
+  background: var(--off-white);
+  border-radius: 14px;
+  padding: calc(var(--gap) * 0.7);
+  box-shadow: 0 0 14px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.menu-card h3{
+  margin: 0;
+  color: var(--pink-main);
+  font-size: 1.2rem;
+}
+
+.menu-card p{
+  margin: 0;
+  color: var(--text-dark);
+  font-size: 0.95rem;
+  flex: 1;
+}
+
+.menu-card .price{
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.menu-card button{
+  align-self: flex-end;
+  background: var(--pink-main);
+  color: var(--white);
+  border: none;
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.25s;
+}
+
+.menu-card button:hover{ background: var(--pink-light); }
+
+#addon-input{
+  width: 100%;
+  min-height: 80px;
+  border: 2px solid var(--pink-main);
+  border-radius: 12px;
+  padding: 0.7rem;
+  font-size: 1rem;
+  color: var(--text-dark);
+}
+
+#addon-form button{
+  margin-top: 0.7rem;
+  background: var(--pink-main);
+  color: var(--white);
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#addon-form button:hover{ background: var(--pink-light); }
+

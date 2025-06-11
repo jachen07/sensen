@@ -22,25 +22,37 @@
 
 <script>
 
-const VALID_SHA256 = "6d39e269aabebb8a1ab6b49bd76407ed51e9a0d2babea2bd7c3881abbdc3a8ff"; // hash of your real key
+// echo -n 'YourPasswordHere' | shasum -a 256
+const VALID_SHA256 = "6d39e269aabebb8a1ab6b49bd76407ed51e9a0d2babea2bd7c3881abbdc3a8ff";
+const ALT_SHA256 = "924c3a6c378f30fad9e5be05611f1c97d7298e35af01a79edbaf38a86ba289d3";
 
-async function sha256(str) {
-  const buf = new TextEncoder().encode(str);
-  const hash = await crypto.subtle.digest('SHA-256', buf);
-  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
-}
-
-async function check() {
-  const guess = document.getElementById('key').value;
-  if (await sha256(guess) === VALID_SHA256) {
-    sessionStorage.setItem('ok','yes');          // remember within the tab
-    window.location.href = "home.html";          // your real landing page
-  } else {
-    document.getElementById('msg').textContent = "Wrong key — try again.";
+  async function sha256(str) {
+    const buf  = new TextEncoder().encode(str);
+    const hash = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(hash))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
   }
-}
-// auto-skip the gate if user already passed it in this tab
-if (sessionStorage.getItem('ok') === 'yes') window.location.href = "home.html";
+
+  async function check() {
+    const guess = document.getElementById('key').value;
+    const h     = await sha256(guess);
+
+    if (h === VALID_SHA256) {
+      sessionStorage.setItem('ok','yes');
+      window.location.href = "home.html";
+    }
+    else if (h === ALT_SHA256) {
+      sessionStorage.setItem('ok2','yes');
+      window.location.href = "menu.html";
+    }
+    else {
+      document.getElementById('msg').textContent = "Wrong key — try again.";
+    }
+  }
+  // auto-skip if they already passed either gate
+  const passed1 = sessionStorage.getItem('ok')  === 'yes';
+  const passed2 = sessionStorage.getItem('ok2') === 'yes';
+  if (passed1) window.location.href = "home.html";
+  if (passed2) window.location.href = "menu.html";
 </script>
-</body>
-</html>

@@ -1,4 +1,3 @@
-// --- Hamburger menu logic (run on ALL pages) ---
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.getElementById('nav-toggle');
   const menu = document.querySelector('.menu-bar');
@@ -8,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.classList.toggle('menu-open');
     });
 
-    // Close the menu when a menu item is clicked (for mobile)
     menu.querySelectorAll('button').forEach(btn => {
       btn.addEventListener('click', () => {
         document.body.classList.remove('menu-open');
@@ -32,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   window.addEventListener('scroll', updateNavToggleVisibility);
-  window.addEventListener('resize', updateNavToggleVisibility); // In case screen is resized
+  window.addEventListener('resize', updateNavToggleVisibility); 
   updateNavToggleVisibility();
   
 });
@@ -64,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
     img.src = src;
   });
 
-  // --- CROSSFADE STATE ---
   let idx = 0;
   let current = 1;
 
@@ -83,8 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
     current = current === 1 ? 2 : 1;
     idx = (idx + 1) % timelinePaths.length;
   }
-
-  // kick it off immediately, then every 5 seconds
   crossfadeTimeline();
   setInterval(crossfadeTimeline, 5000);
 });
@@ -249,22 +244,19 @@ function crossfade() {
   const front = document.getElementById(`bg${current}`);
   const back  = document.getElementById(`bg${current === 1 ? 2 : 1}`);
 
-  // prepare the hidden layer
   back.style.backgroundImage = `url('${catPaths[idx]}')`;
   back.style.opacity = 1;      // fade in
   front.style.opacity = 0;     // fade out
-
-  // flip which layer is “current”
   current = current === 1 ? 2 : 1;
   idx = (idx + 1) % catPaths.length;
 }
 
-// 3) Kick it off
 setInterval(crossfade, 5000);
 crossfade();
 
 firebase.auth().signInAnonymously()
   .catch((error) => {
-    // Handle Errors here.
     console.error(error);
   });
+
+  
