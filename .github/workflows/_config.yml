@@ -1,0 +1,2 @@
+# _config.yml
+permalink: pretty     # tells Jekyll to output /page/ instead of /page.html
